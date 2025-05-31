@@ -25,7 +25,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Registrar los servicios
-builder.Services.AddScoped<IBranchRepository, BranchRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 

@@ -6,13 +6,30 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<MiAlmacencitoDbContext>(o =>  o.UseSqlServer(builder.Configuration.GetConnectionString("MiAlmacencitoConnection")));
+builder.Services.AddDbContext<MiAlmacencitoDbContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("MiAlmacencitoConnection")));
+
+// Configure CORS for frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Registrar los servicios
 builder.Services.AddScoped<IBranchRepository, BranchRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 var app = builder.Build();
 
@@ -24,6 +41,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use CORS middleware
+app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
 

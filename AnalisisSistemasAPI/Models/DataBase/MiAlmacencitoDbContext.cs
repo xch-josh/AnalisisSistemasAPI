@@ -6,6 +6,9 @@ namespace AnalisisSistemasAPI.Models.DataBase;
 
 public partial class MiAlmacencitoDbContext : DbContext
 {
+    public MiAlmacencitoDbContext()
+    {
+    }
 
     public MiAlmacencitoDbContext(DbContextOptions<MiAlmacencitoDbContext> options)
         : base(options)
@@ -51,7 +54,6 @@ public partial class MiAlmacencitoDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserBranch> UserBranches { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -151,6 +153,10 @@ public partial class MiAlmacencitoDbContext : DbContext
             entity.ToTable("Module");
 
             entity.Property(e => e.ModuleId).HasColumnName("ModuleID");
+            entity.Property(e => e.Icon).IsUnicode(false);
+            entity.Property(e => e.Link)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -385,7 +391,7 @@ public partial class MiAlmacencitoDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.ToTable("User");
+            entity.HasKey(e => e.UserId).HasName("PK_User");
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Name)
@@ -405,19 +411,17 @@ public partial class MiAlmacencitoDbContext : DbContext
 
         modelBuilder.Entity<UserBranch>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("UserBranch");
+            entity.ToTable("UserBranch");
 
             entity.Property(e => e.BranchId).HasColumnName("BranchID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.Branch).WithMany()
+            entity.HasOne(d => d.Branch).WithMany(p => p.UserBranches)
                 .HasForeignKey(d => d.BranchId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_UserBranch_Branch");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.UserBranches)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_UserBranch_User");

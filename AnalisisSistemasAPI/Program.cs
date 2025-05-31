@@ -23,10 +23,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Registrar los servicios
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
-builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<IBranchRepository, BranchRepository>();
+builder.Services.AddScoped<IRolRepository, RolRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 
 var app = builder.Build();
 
@@ -36,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowReactApp");
 
 app.UseHttpsRedirection();
 

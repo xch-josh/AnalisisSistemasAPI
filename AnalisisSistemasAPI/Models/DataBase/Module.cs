@@ -11,5 +11,11 @@ public partial class Module
 
     public bool State { get; set; }
 
+    public int? Father { get; set; }
+
+    public string Link { get; set; } = null!;
+
+    public string? Icon { get; set; }
+
     public virtual ICollection<RolAccess> RolAccesses { get; set; } = new List<RolAccess>();
 }

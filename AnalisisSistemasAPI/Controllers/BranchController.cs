@@ -18,36 +18,79 @@ namespace AnalisisSistemasAPI.Controllers
         [HttpGet]
         public IActionResult GetBranches()
         {
-            var branches = repository.GetBranches();
-            return Ok(branches);
+            try
+            {
+                var branches = repository.GetBranches();
+
+                if (branches != null)
+                    return Ok(branches);
+                else
+                    return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public IActionResult GetBranch(int id)
         {
-            var branches = repository.GetBranch(id);
-            return Ok(branches);
+            try
+            {
+                var branch = repository.GetBranch(id);
+
+                if (branch != null)
+                    return Ok(branch);
+                else
+                    return Ok(false);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
         public IActionResult Insert([FromBody] Branch branch)
         {
-            repository.Insert(branch);
-            return Ok();
+            try
+            {
+                repository.Insert(branch);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
         public IActionResult Update([FromBody] Branch branch)
         {
-            repository.Update(branch);
-            return Ok();
+            try
+            {
+                repository.Update(branch);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            repository.Delete(id);
-            return Ok();
+            try
+            {
+                repository.Delete(id);
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

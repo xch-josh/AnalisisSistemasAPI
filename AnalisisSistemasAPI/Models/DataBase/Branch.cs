@@ -16,4 +16,6 @@ public partial class Branch
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
+
+    public virtual ICollection<UserBranch> UserBranches { get; set; } = new List<UserBranch>();
 }

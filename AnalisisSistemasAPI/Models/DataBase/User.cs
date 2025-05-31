@@ -22,4 +22,6 @@ public partial class User
     public virtual Rol Rol { get; set; } = null!;
 
     public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
+
+    public virtual ICollection<UserBranch> UserBranches { get; set; } = new List<UserBranch>();
 }

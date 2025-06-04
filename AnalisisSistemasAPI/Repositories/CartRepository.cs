@@ -1,4 +1,5 @@
 using AnalisisSistemasAPI.Interfaces;
+using AnalisisSistemasAPI.Models.CartModels;
 using AnalisisSistemasAPI.Models.DataBase;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +14,24 @@ namespace AnalisisSistemasAPI.Repositories
             this.db = db;
         }
 
-        public List<Cart> GetCartItems()
+        public List<CartViewModel> GetCartItems()
         {
-            var cartItems = db.Carts.Include(c => c.Product)
-                              .ThenInclude(p => p.Brand)
-                              .Include(c => c.Product.Category)
-                              .Include(c => c.Product.Measure)
-                              .ToList();
+            var cartItems = new List<CartViewModel>();
+
+            cartItems = (from x in db.Carts
+                         join y in db.Products on x.ProductId equals y.ProductId
+                         select new CartViewModel
+                         {
+                             CartId = x.CartId,
+                             Quantity = x.Quantity,
+                             ProductName = y.Name,
+                             CodeBar = y.CodeBar,
+                             UnitPrice = y.UnitPrice,
+                             Discount = x.Discount,
+                             SalePrice = x.SalePrice,
+                             Subtotal = x.Subtotal
+                         }).ToList();
+
             return cartItems;
         }
 
@@ -30,27 +42,40 @@ namespace AnalisisSistemasAPI.Repositories
             return cartItem;
         }
 
-        public void Insert(Cart cartItem)
+        public void Insert(CartModel model)
         {
             // Verificar si el producto ya existe en el carrito
-            var existingItem = db.Carts.FirstOrDefault(c => c.ProductId == cartItem.ProductId);
+            var existingItem = db.Carts.FirstOrDefault(c => c.ProductId == model.ProductId);
             
             if (existingItem != null)
             {
                 // Actualizar cantidad
-                existingItem.Quantity += cartItem.Quantity;
+                existingItem.Quantity += model.Quantity;
                 db.SaveChanges();
             }
             else
             {
                 // Agregar nuevo ítem
+                var cartItem = new Cart();
+
+                cartItem.Quantity = model.Quantity;
+                cartItem.PurchasePrice = model.PurchasePrice;
+                cartItem.UnitPrice = model.UnitPrice;
+                cartItem.Discount = model.Discount;
+                cartItem.SalePrice = model.SalePrice;
+                cartItem.Subtotal = model.Subtotal;
+                cartItem.ProductId = model.ProductId;
+                cartItem.UserId = model.UserId;
+                cartItem.BranchId = model.BranchId;
+
                 db.Carts.Add(cartItem);
                 db.SaveChanges();
             }
         }
 
-        public void Update(Cart cartItem)
+        public void Update(CartModel model)
         {
+            var cartItem = db.Carts.Find(model.CartId);
             db.Carts.Update(cartItem);
             db.SaveChanges();
         }

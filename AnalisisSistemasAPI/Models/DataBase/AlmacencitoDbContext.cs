@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnalisisSistemasAPI.Models.DataBase;
 
-public partial class MiAlmacencitoDbContext : DbContext
+public partial class AlmacencitoDbContext : DbContext
 {
-    public MiAlmacencitoDbContext()
+    public AlmacencitoDbContext()
     {
     }
 
-    public MiAlmacencitoDbContext(DbContextOptions<MiAlmacencitoDbContext> options)
+    public AlmacencitoDbContext(DbContextOptions<AlmacencitoDbContext> options)
         : base(options)
     {
     }
@@ -54,6 +54,7 @@ public partial class MiAlmacencitoDbContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserBranch> UserBranches { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

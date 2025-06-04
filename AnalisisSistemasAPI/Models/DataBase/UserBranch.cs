@@ -5,6 +5,8 @@ namespace AnalisisSistemasAPI.Models.DataBase;
 
 public partial class UserBranch
 {
+    public int Id { get; set; }
+
     public int BranchId { get; set; }
 
     public int UserId { get; set; }

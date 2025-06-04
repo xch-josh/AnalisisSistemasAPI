@@ -65,14 +65,30 @@ namespace AnalisisSistemasAPI.Repositories
             return users;
         }
 
-        public void Insert(User user)
+        public void Insert(UserModel model)
         {
+            var user = new User();
+
+            user.Name = model.Name;
+            user.UserName = model.UserName;
+            user.RolId = model.RolId;
+            user.State = model.State;
+            user.Password = model.Password;
+
             db.Users.Add(user);
             db.SaveChanges();
         }
 
-        public void Update(User user)
+        public void Update(UserModel model)
         {
+            var user = db.Users.Find(model.UserId);
+
+            user.Name = model.Name;
+            user.UserName = model.UserName;
+            user.RolId = model.RolId;
+            user.State = model.State;
+            user.Password = model.Password;
+
             db.Users.Update(user);
             db.SaveChanges();
         }

@@ -7,8 +7,8 @@ namespace AnalisisSistemasAPI.Interfaces
     {
         List<UserViewModel> GetUsers();
         User GetUser(int id);
-        void Insert(User rol);
-        void Update(User rol);
+        void Insert(UserModel model);
+        void Update(UserModel model);
         void Delete(int id);
         SessionModel BeginSession(string username, string password);
         List<UserBranchModel> GetAccess(int id);

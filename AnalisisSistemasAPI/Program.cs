@@ -37,10 +37,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 
 // Registrar los servicios - Products & Cart (Pablo)
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
 // Registrar los servicios - Product Management (Luis)
 builder.Services.AddScoped<IProductsRepository, ProductRepository>();

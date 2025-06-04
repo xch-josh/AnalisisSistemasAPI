@@ -70,7 +70,7 @@ namespace AnalisisSistemasAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert(User user)
+        public IActionResult Insert(UserModel user)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace AnalisisSistemasAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(User user)
+        public IActionResult Update(UserModel user)
         {
             try
             {

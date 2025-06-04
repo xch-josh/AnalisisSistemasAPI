@@ -1,4 +1,5 @@
 using AnalisisSistemasAPI.Interfaces;
+using AnalisisSistemasAPI.Models.CartModels;
 using AnalisisSistemasAPI.Models.DataBase;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ namespace AnalisisSistemasAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert([FromBody] Cart cartItem)
+        public IActionResult Insert([FromBody] CartModel cartItem)
         {
             if (cartItem == null)
                 return BadRequest();
@@ -50,7 +51,7 @@ namespace AnalisisSistemasAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Cart cartItem)
+        public IActionResult Update([FromBody] CartModel cartItem)
         {
             if (cartItem == null || cartItem.CartId == 0)
                 return BadRequest();
